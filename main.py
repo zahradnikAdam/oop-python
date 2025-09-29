@@ -1,65 +1,48 @@
 class Car:
-
-    def __init__(self, znacka: str, rok: int, model: str, typ_prevodovky: str, barva: str, cena: float, vybava=None):
-        self.znacka = znacka
-        self.rok = rok
-        self.model = model
-        self.typ_prevodovky = typ_prevodovky
-        self.barva = barva
-        self.cena = cena
-        self.vybava = vybava if vybava else []
-
-    def vypis(self):
-        vybava_str = ", ".join([f"{v['nazev']} ({v['cena']} Kč)" for v in self.vybava]) if self.vybava else "žádná"
-        return (
-            f"Název auta: {self.znacka}, "
-            f"Rok výroby: {self.rok}, "
-            f"Model: {self.model}, "
-            f"Typ převodovky: {self.typ_prevodovky}, "
-            f"Barva: {self.barva}, "
-            f"Cena s DPH: {self.cena} Kč, "
-            f"Cena bez DPH: {self.cena_bez_dph()} Kč, "
-            f"Příplatková výbava: {vybava_str}"
-        )
-
+    def __init__(self, znacka: str, rok: int, model: str, barva: str, typ_prevodovky: str, cena: float):
+        self.znacka = str(znacka)
+        self.rok = int(rok)
+        self.model = str(model)
+        self.barva = str(barva)
+        self.typ_prevodovky = str(typ_prevodovky)
+        self.cena = float(cena)
+ 
     def cena_bez_dph(self):
-        
-        return round(self.cena / 1.21, 2)
-
-def vyber_vybavu(vsechny_vybavy):
-    print("Dostupné příplatkové výbavy:")
-    for idx, vybava in enumerate(vsechny_vybavy):
-        print(f"{idx+1}. {vybava['nazev']} ({vybava['cena']} Kč)")
-    vyber = input("Zadej čísla vybraných výbav oddělená čárkou (např. 1,3): ")
-    vybrane = []
-    cisla = [int(x.strip()) - 1 for x in vyber.split(",") if x.strip().isdigit()]
-    for i in cisla:
-        if 0 <= i < len(vsechny_vybavy):
-            vybrane.append(vsechny_vybavy[i])
-    return vybrane
-
-
-dostupne_vybavy = [
-    {"nazev": "kožená sedadla", "cena": 35000},
-    {"nazev": "panoramatická střecha", "cena": 25000},
-    {"nazev": "sportovní paket", "cena": 50000},
-    {"nazev": "adaptivní tempomat", "cena": 20000}
+        return self.cena / 1.21
+ 
+    def vypis(self):
+        return (
+            f"........................................\n"
+            f"Název auta: {self.znacka}\n"
+            f"Rok výroby: {self.rok}\n"
+            f"Model: {self.model}\n"
+            f"Barva: {self.barva}\n"
+            f"Typ převodovky: {self.typ_prevodovky}\n"
+            f"Cena: {self.cena:,.2f} Kč\n"
+            f"Cena bez DPH: {self.cena_bez_dph():,.2f} Kč\n"
+            f"........................................"
+        )
+ 
+ 
+skoda = Car("Škoda", 2021, "Octavia", "bílá", "manuální", 310000)
+audi = Car("Audi", 2022, "A4", "černá", "automat", 450000)
+ 
+seznam_aut = [
+    Car("BMW", 2020, "X5", "modrá", "automat", 520000),
+    Car("Audi", 2022, "Q7", "černá", "automat", 450000),
+    Car("Škoda", 2021, "Superb", "bílá", "manuální", 310000),
+    Car("Volkswagen", 2019, "Golf", "červená", "manuální", 280000),
+    Car("Toyota", 2023, "Corolla", "bílá", "automat", 390000),
+    Car("Ford", 2018, "Focus", "šedá", "manuální", 210000),
+    Car("Mercedes-Benz", 2021, "C-Class", "černá", "automat", 610000),
+    Car("Hyundai", 2022, "i30", "modrá", "manuální", 340000),
+    Car("Kia", 2020, "Ceed", "zelená", "manuální", 295000),
+    Car("Peugeot", 2019, "308", "bílá", "automat", 270000)
 ]
-
-
-print("Vyber výbavu pro Audi:")
-audi_vybava = vyber_vybavu(dostupne_vybavy)
-audi = Car("Audi", 1999, "A4", "Manuální", "Stříbrná", 45000, audi_vybava)
-
-print("\nVyber výbavu pro Škoda:")
-skoda_vybava = vyber_vybavu(dostupne_vybavy)
-skoda = Car("Škoda", 2014, "Superb II", "Manuální", "Bílá", 310000, skoda_vybava)
-
-print("\nVyber výbavu pro BMW:")
-bmw_vybava = vyber_vybavu(dostupne_vybavy)
-bmw = Car("BMW", 2020, "X5", "Automatická", "Černá", 1200000, bmw_vybava)
-
-auta = [audi, skoda, bmw]
-
-for auto in auta:
-    print("\n" + auto.vypis())
+ 
+ 
+print(skoda.vypis())
+print(audi.vypis())
+ 
+for auto in seznam_aut:
+    print(auto.vypis() + "-" * 40)
